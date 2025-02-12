@@ -5,7 +5,8 @@
 */
 (function () {
   "use strict";
-
+  emailjs.init("50VO_u39JTShOI7zK");
+  
   let forms = document.querySelectorAll('.php-email-form');
 
   forms.forEach( function(e) {
@@ -14,67 +15,54 @@
 
       let thisForm = this;
 
-      let action = thisForm.getAttribute('action');
-      let recaptcha = thisForm.getAttribute('data-recaptcha-site-key');
-      
-      if( ! action ) {
-        displayError(thisForm, 'The form action property is not set!');
-        return;
-      }
       thisForm.querySelector('.loading').classList.add('d-block');
       thisForm.querySelector('.error-message').classList.remove('d-block');
       thisForm.querySelector('.sent-message').classList.remove('d-block');
 
       let formData = new FormData( thisForm );
 
-      if ( recaptcha ) {
-        if(typeof grecaptcha !== "undefined" ) {
-          grecaptcha.ready(function() {
-            try {
-              grecaptcha.execute(recaptcha, {action: 'php_email_form_submit'})
-              .then(token => {
-                formData.set('recaptcha-response', token);
-                php_email_form_submit(thisForm, action, formData);
-              })
-            } catch(error) {
-              displayError(thisForm, error);
-            }
-          });
-        } else {
-          displayError(thisForm, 'The reCaptcha javascript API url is not loaded!')
-        }
+      let name = document.getElementById("name-field").value;
+	    let subject = document.getElementById("subject-field").value;
+      let email = document.getElementById("email-field").value;
+      let message = document.getElementById("message-field").value;
+      let newsletterEmail = formData.get("newsletter-email");
+
+      let serviceID = "service_4mpuv8i";
+      let templateID;
+      let templateParams = {};
+
+      if (newsletterEmail && newsletterEmail.trim() !== "") {
+        // Use the newsletter template if the newsletter-email field is filled
+        templateID = "template_p0bbis3";
+        templateParams = {
+          newsletter_email: newsletterEmail
+        };
       } else {
-        php_email_form_submit(thisForm, action, formData);
+        // Use the default contact template if no newsletter-email is provided
+        templateID = "template_r3ku9b8";
+        templateParams = {
+          from_name: name,
+          from_email: email,
+          message: message,
+		      subject: subject,
+		      reply_to: email
+        };
       }
+      
+      emailjs.send(serviceID, templateID, templateParams)
+        .then(response => {
+          console.log("Email sent successfully!", response);
+          thisForm.querySelector('.loading').classList.remove('d-block');
+          thisForm.querySelector('.sent-message').classList.add('d-block');
+          thisForm.reset();
+        })
+        .catch(error => {
+          console.error("Error sending email:", error);
+          thisForm.querySelector('.loading').classList.remove('d-block');
+          displayError(thisForm, "Failed to send email. Please try again later.");
+        });
     });
   });
-
-  function php_email_form_submit(thisForm, action, formData) {
-    fetch(action, {
-      method: 'POST',
-      body: formData,
-      headers: {'X-Requested-With': 'XMLHttpRequest'}
-    })
-    .then(response => {
-      if( response.ok ) {
-        return response.text();
-      } else {
-        throw new Error(`${response.status} ${response.statusText} ${response.url}`); 
-      }
-    })
-    .then(data => {
-      thisForm.querySelector('.loading').classList.remove('d-block');
-      if (data.trim() == 'OK') {
-        thisForm.querySelector('.sent-message').classList.add('d-block');
-        thisForm.reset(); 
-      } else {
-        throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action); 
-      }
-    })
-    .catch((error) => {
-      displayError(thisForm, error);
-    });
-  }
 
   function displayError(thisForm, error) {
     thisForm.querySelector('.loading').classList.remove('d-block');
