@@ -22,7 +22,7 @@
       let formData = new FormData( thisForm );
 
       let name = document.getElementById("name-field").value;
-	    let subject = document.getElementById("subject-field").value;
+      let subject = document.getElementById("subject-field").value;
       let email = document.getElementById("email-field").value;
       let message = document.getElementById("message-field").value;
       let newsletterEmail = formData.get("newsletter-email");
@@ -31,7 +31,7 @@
       let templateID;
       let templateParams = {};
 
-      if (newsletterEmail && newsletterEmail.trim() !== "") {
+      if (newsletterEmail.trim() !== "") {
         // Use the newsletter template if the newsletter-email field is filled
         templateID = "template_p0bbis3";
         templateParams = {
@@ -44,8 +44,8 @@
           from_name: name,
           from_email: email,
           message: message,
-		      subject: subject,
-		      reply_to: email
+	  subject: subject,
+	  reply_to: email
         };
       }
       
