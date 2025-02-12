@@ -360,7 +360,7 @@
           </div>
 
           <div class="col-lg-7">
-            <form class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+            <form onsubmit="sendEmail(event)" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
               <div class="row gy-4">
 
                 <div class="col-md-6">
@@ -388,7 +388,7 @@
                   <div class="error-message"></div>
                   <div class="sent-message">Your message has been sent. Thank you!</div>
 
-                  <button class="btn-get-started" type="button" onclick="sendEmail()">Send Message</button>
+                  <button type="submit">Send Message</button>
                 </div>
 
               </div>
@@ -507,7 +507,9 @@
             emailjs.init("50VO_u39JTShOI7zK"); // Replace with your EmailJS user ID
         })();
 
-        function sendEmail() {
+        function sendEmail(event) {
+            event.preventDefault();
+		
             var name = document.getElementById("name-field").value;
 	    var subject = document.getElementById("subject-field").value;
             var email = document.getElementById("email-field").value;
