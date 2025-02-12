@@ -388,7 +388,7 @@
                   <div class="error-message"></div>
                   <div class="sent-message">Your message has been sent. Thank you!</div>
 
-                  <button type="button" onclick="sendEmail()">Send Message</button>
+                  <button class="btn-get-started" type="button" onclick="sendEmail()">Send Message</button>
                 </div>
 
               </div>
@@ -509,7 +509,7 @@
 
         function sendEmail() {
             var name = document.getElementById("name-field").value;
-	    var subject = document.getElementId("subject-field").value;
+	    var subject = document.getElementById("subject-field").value;
             var email = document.getElementById("email-field").value;
             var message = document.getElementById("message-field").value;
 
