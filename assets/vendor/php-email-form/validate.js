@@ -25,13 +25,13 @@
       let subject = document.getElementById("subject-field").value;
       let email = document.getElementById("email-field").value;
       let message = document.getElementById("message-field").value;
-      let newsletterEmail = document.getElementById("newsletter-email");
+      let newsletterEmail = document.getElementById("newsletter-email") ? document.getElementById("newsletter-email").value.trim() : "";
 
       let serviceID = "service_4mpuv8i";
       let templateID;
       let templateParams = {};
 
-      if (newsletterEmail.trim() !== "") {
+      if (newsletterEmail !== "") {
         // Use the newsletter template if the newsletter-email field is filled
         templateID = "template_p0bbis3";
         templateParams = {
