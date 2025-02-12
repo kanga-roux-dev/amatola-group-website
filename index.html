@@ -360,7 +360,7 @@
           </div>
 
           <div class="col-lg-7">
-            <form onsubmit="sendEmail(event)" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+            <form class="php-email-form" data-aos="fade-up" data-aos-delay="200">
               <div class="row gy-4">
 
                 <div class="col-md-6">
@@ -388,7 +388,7 @@
                   <div class="error-message"></div>
                   <div class="sent-message">Your message has been sent. Thank you!</div>
 
-                  <button type="submit">Send Message</button>
+                  <input type="submit">Send Message</button>
                 </div>
 
               </div>
@@ -490,6 +490,7 @@
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
@@ -500,38 +501,6 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-	
-    <script>
-        (function() {
-            emailjs.init("50VO_u39JTShOI7zK"); // Replace with your EmailJS user ID
-        })();
-
-        function sendEmail(event) {
-            event.preventDefault();
-		
-            var name = document.getElementById("name-field").value;
-	    var subject = document.getElementById("subject-field").value;
-            var email = document.getElementById("email-field").value;
-            var message = document.getElementById("message-field").value;
-
-            var templateParams = {
-                from_name: name,
-                from_email: email,
-                message: message,
-		subject: subject,
-		reply_to: email
-            };
-
-            emailjs.send("service_4mpuv8i", "template_r3ku9b8", templateParams)
-                .then(response => {
-                    console.log("Email sent!", response);
-                })
-                .catch(error => {
-                    console.error("Error sending email:", error);
-                });
-        }
-    </script>
 	
 </body>
 
