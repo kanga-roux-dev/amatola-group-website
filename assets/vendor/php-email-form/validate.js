@@ -25,7 +25,7 @@
       let subject = document.getElementById("subject-field").value;
       let email = document.getElementById("email-field").value;
       let message = document.getElementById("message-field").value;
-      let newsletterEmail = formData.get("newsletter-email");
+      let newsletterEmail = document.getElementById("newsletter-email");
 
       let serviceID = "service_4mpuv8i";
       let templateID;
